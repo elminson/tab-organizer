@@ -57,3 +57,12 @@ request — fractions of a cent per run.
 - **"Claude API 401"** → wrong/missing API key. Re-check Settings.
 - **"Claude API 400 ... model"** → update the `MODEL` constant in `background.js`.
 - **Nothing groups** → make sure you have more than ~2 non-pinned tabs open.
+
+## Disclaimer
+
+This extension is provided **"as is", without warranty of any kind**, express or implied.
+The author is **not responsible or liable** for any use of this extension, for the grouping
+decisions returned by third-party AI providers, for any data you choose to send to those
+providers, or for any loss, damage, cost, or disruption arising from its use. You use it
+**at your own risk** and are solely responsible for complying with the terms and pricing of
+whichever AI provider you configure. See `LICENSE` for full terms.
