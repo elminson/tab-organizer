@@ -1,114 +1,230 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Privacy Policy — AI Tab Organizer</title>
+<meta name="description" content="The privacy policy for the AI Tab Organizer Chrome extension. No servers, no tracking, no data sale." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'media',
+    theme: {
+      extend: {
+        colors: {
+          brand: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',900:'#1e3a8a' },
+        },
+        fontFamily: {
+          display: ['Fraunces','Georgia','serif'],
+          sans: ['"Plus Jakarta Sans"','system-ui','sans-serif'],
+        },
+      },
+    },
+  }
+</script>
 <style>
-  :root { --b:#2563eb; --t:#0f172a; --m:#475569; --bd:#e2e8f0; --bg:#f8fafc; }
-  * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--t);
-    font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif; line-height:1.6; }
-  .wrap { max-width:760px; margin:0 auto; padding:48px 22px 80px; }
-  .badge { display:inline-flex; align-items:center; gap:9px; font-weight:700; margin-bottom:18px; }
-  .badge .ic { width:34px; height:34px; border-radius:9px; display:grid; place-items:center;
-    background:linear-gradient(135deg,#2563eb,#3b82f6); }
-  .badge .ic svg { width:19px; height:19px; }
-  h1 { font-size:30px; letter-spacing:-0.02em; margin:0 0 4px; }
-  .updated { color:var(--m); font-size:14px; margin:0 0 30px; }
-  h2 { font-size:19px; margin:32px 0 8px; letter-spacing:-0.01em; }
-  p, li { color:#1e293b; }
-  a { color:var(--b); }
-  ul { padding-left:22px; }
-  .card { background:#fff; border:1px solid var(--bd); border-radius:14px; padding:6px 24px 22px; margin-top:8px; }
-  code { background:#eef2ff; padding:1px 6px; border-radius:5px; font-size:.9em; }
-  footer { margin-top:40px; color:var(--m); font-size:13px; border-top:1px solid var(--bd); padding-top:18px; }
+  body { font-family:'Plus Jakarta Sans',system-ui,sans-serif; }
+  .font-display { font-family:'Fraunces',Georgia,serif; }
+  ::selection { background:#2563eb; color:#fff; }
+
+  /* atmospheric gradient mesh + grain */
+  .mesh::before{content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(50rem 30rem at 85% -10%, rgba(59,130,246,.20), transparent 60%),
+      radial-gradient(40rem 28rem at -5% 8%, rgba(37,99,235,.16), transparent 55%),
+      radial-gradient(45rem 30rem at 50% 120%, rgba(96,165,250,.14), transparent 60%);}
+  .grain::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E");}
+
+  @keyframes rise { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+  .rise { opacity:0; animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+  .rise-1{animation-delay:.05s}.rise-2{animation-delay:.13s}.rise-3{animation-delay:.21s}.rise-4{animation-delay:.29s}
+
+  .toc a.active { color:#2563eb; }
+  .dark .toc a.active { color:#93c5fd; }
+  .toc a.active::before { transform:scaleY(1); }
+
+  @media (prefers-reduced-motion: reduce){ .rise{animation:none;opacity:1} html{scroll-behavior:auto} }
 </style>
 </head>
-<body>
-<div class="wrap">
-  <div class="badge">
-    <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg></span>
-    AI Tab Organizer
-  </div>
+<body class="mesh grain bg-[#fbfcfe] text-slate-700 dark:bg-[#070b16] dark:text-slate-300 antialiased">
 
-  <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: June 17, 2026</p>
+  <article class="mx-auto max-w-6xl px-5 sm:px-8">
 
-  <div class="card">
-  <p>AI Tab Organizer ("the extension") is a browser extension that groups your open
-  Chrome tabs into tab groups using an AI model you choose. This policy explains exactly
-  what data the extension handles and where it goes. <strong>The developer operates no
-  server and never receives, stores, or sells your data.</strong></p>
+    <!-- ░░ HEADER ░░ -->
+    <header class="pt-16 sm:pt-24 pb-10">
+      <a href="https://github.com/elminson/tab-organizer" class="rise rise-1 inline-flex items-center gap-2.5 group">
+        <span class="grid h-9 w-9 place-items-center rounded-xl text-white shadow-lg shadow-brand-600/30 bg-gradient-to-br from-brand-600 to-brand-500">
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+        </span>
+        <span class="font-semibold tracking-tight text-slate-900 dark:text-white">AI Tab Organizer</span>
+      </a>
 
-  <h2>What the extension accesses</h2>
-  <ul>
-    <li><strong>Open tab titles and URLs</strong> — read only when you click "Organize my
-    tabs," and only to categorize those tabs into groups.</li>
-    <li><strong>Your AI provider API key</strong> — the key you enter in Settings for your
-    chosen provider (Google Gemini, OpenAI, or Anthropic).</li>
-    <li><strong>Your preferences</strong> — selected provider, optional model name, and
-    toggle settings (collapse groups, include pinned tabs).</li>
-  </ul>
+      <p class="rise rise-2 mt-9 inline-flex items-center gap-2 rounded-full border border-slate-200/80 dark:border-white/10 bg-white/60 dark:bg-white/5 px-3.5 py-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 backdrop-blur">
+        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Updated June 17, 2026
+      </p>
 
-  <h2>How the data is used</h2>
-  <ul>
-    <li>When you click "Organize my tabs," the extension sends the <strong>titles and URLs
-    of your open tabs</strong>, together with your API key, <strong>directly from your
-    browser to the AI provider you selected</strong>, over HTTPS. The provider returns a
-    suggested grouping, which the extension applies as Chrome tab groups.</li>
-    <li>Your API key and preferences are stored <strong>locally on your device</strong>
-    using Chrome's <code>storage</code> API. They are never transmitted anywhere except,
-    in the case of the API key, to the provider you chose in order to authenticate your
-    own request.</li>
-    <li>Tab titles and URLs are processed in memory to build the request and are
-    <strong>not stored or logged</strong> by the extension.</li>
-  </ul>
+      <h1 class="rise rise-2 mt-5 font-display text-5xl sm:text-7xl font-600 leading-[0.95] tracking-tight text-slate-900 dark:text-white">
+        Privacy,<br><span class="italic bg-gradient-to-r from-brand-600 to-brand-400 bg-clip-text text-transparent">in plain sight.</span>
+      </h1>
+      <p class="rise rise-3 mt-6 max-w-xl text-lg leading-relaxed text-slate-500 dark:text-slate-400">
+        AI Tab Organizer groups your open tabs with an AI model you choose. Here is exactly what it
+        touches and where it goes — <span class="text-slate-900 dark:text-white font-medium">no servers, no tracking, no data sale.</span>
+      </p>
 
-  <h2>Third-party AI providers</h2>
-  <p>The extension only contacts the single provider you select. Data you send is handled
-  under that provider's own privacy policy:</p>
-  <ul>
-    <li>Google Gemini — <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">ai.google.dev/gemini-api/terms</a></li>
-    <li>OpenAI — <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">openai.com/policies/privacy-policy</a></li>
-    <li>Anthropic — <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">anthropic.com/legal/privacy</a></li>
-  </ul>
-  <p>If you choose the "None" provider, no data leaves your browser at all — grouping is
-  done locally by website domain.</p>
+      <!-- trust at a glance -->
+      <dl class="rise rise-4 mt-12 grid gap-px overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-200 dark:bg-white/10 sm:grid-cols-3">
+        <div class="bg-white dark:bg-[#0c1426] p-6">
+          <dt class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Reads
+          </dt>
+          <dd class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">Your open tab titles &amp; URLs — only when you click <em>Organize</em>.</dd>
+        </div>
+        <div class="bg-white dark:bg-[#0c1426] p-6">
+          <dt class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Sends to
+          </dt>
+          <dd class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">Only the one AI provider you pick — Gemini, OpenAI, or Claude.</dd>
+        </div>
+        <div class="bg-white dark:bg-[#0c1426] p-6">
+          <dt class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Stores
+          </dt>
+          <dd class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">Your key &amp; settings locally on your device. Nowhere else.</dd>
+        </div>
+      </dl>
+    </header>
 
-  <h2>What the extension does NOT do</h2>
-  <ul>
-    <li>No analytics, tracking, or telemetry.</li>
-    <li>No developer-operated server; the developer never receives your data.</li>
-    <li>No selling or transferring of user data to third parties.</li>
-    <li>No use of your data for advertising, creditworthiness, or lending.</li>
-    <li>No collection of personal, financial, health, or location information.</li>
-  </ul>
+    <!-- ░░ BODY: sticky TOC + sections ░░ -->
+    <div class="grid gap-12 pb-24 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-16">
 
-  <h2>Data retention and control</h2>
-  <p>Your settings and API key remain on your device until you change or remove them. You
-  can clear them anytime by removing values in Settings or uninstalling the extension,
-  which deletes all locally stored data.</p>
+      <!-- TOC -->
+      <nav aria-label="Sections" class="toc hidden lg:block">
+        <div class="sticky top-12 space-y-1 text-sm">
+          <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">Contents</p>
+          <a href="#accesses" class="relative block rounded-lg px-3 py-1.5 text-slate-500 dark:text-slate-400 transition hover:text-brand-600 dark:hover:text-brand-400 before:absolute before:left-0 before:top-1.5 before:h-[calc(100%-0.75rem)] before:w-0.5 before:origin-top before:scale-y-0 before:rounded-full before:bg-brand-600 before:transition-transform">What it accesses</a>
+          <a href="#usage" class="relative block rounded-lg px-3 py-1.5 text-slate-500 dark:text-slate-400 transition hover:text-brand-600 dark:hover:text-brand-400 before:absolute before:left-0 before:top-1.5 before:h-[calc(100%-0.75rem)] before:w-0.5 before:origin-top before:scale-y-0 before:rounded-full before:bg-brand-600 before:transition-transform">How it's used</a>
+          <a href="#providers" class="relative block rounded-lg px-3 py-1.5 text-slate-500 dark:text-slate-400 transition hover:text-brand-600 dark:hover:text-brand-400 before:absolute before:left-0 before:top-1.5 before:h-[calc(100%-0.75rem)] before:w-0.5 before:origin-top before:scale-y-0 before:rounded-full before:bg-brand-600 before:transition-transform">AI providers</a>
+          <a href="#never" class="relative block rounded-lg px-3 py-1.5 text-slate-500 dark:text-slate-400 transition hover:text-brand-600 dark:hover:text-brand-400 before:absolute before:left-0 before:top-1.5 before:h-[calc(100%-0.75rem)] before:w-0.5 before:origin-top before:scale-y-0 before:rounded-full before:bg-brand-600 before:transition-transform">What it never does</a>
+          <a href="#retention" class="relative block rounded-lg px-3 py-1.5 text-slate-500 dark:text-slate-400 transition hover:text-brand-600 dark:hover:text-brand-400 before:absolute before:left-0 before:top-1.5 before:h-[calc(100%-0.75rem)] before:w-0.5 before:origin-top before:scale-y-0 before:rounded-full before:bg-brand-600 before:transition-transform">Retention &amp; control</a>
+          <a href="#disclaimer" class="relative block rounded-lg px-3 py-1.5 text-slate-500 dark:text-slate-400 transition hover:text-brand-600 dark:hover:text-brand-400 before:absolute before:left-0 before:top-1.5 before:h-[calc(100%-0.75rem)] before:w-0.5 before:origin-top before:scale-y-0 before:rounded-full before:bg-brand-600 before:transition-transform">Disclaimer</a>
+          <a href="#contact" class="relative block rounded-lg px-3 py-1.5 text-slate-500 dark:text-slate-400 transition hover:text-brand-600 dark:hover:text-brand-400 before:absolute before:left-0 before:top-1.5 before:h-[calc(100%-0.75rem)] before:w-0.5 before:origin-top before:scale-y-0 before:rounded-full before:bg-brand-600 before:transition-transform">Contact</a>
+        </div>
+      </nav>
 
-  <h2>Children</h2>
-  <p>The extension is a general productivity tool and is not directed to children under 13.</p>
+      <!-- sections -->
+      <div class="max-w-2xl space-y-14">
 
-  <h2>Changes to this policy</h2>
-  <p>If this policy changes, the "Last updated" date above will be revised. Material
-  changes will be reflected in the extension's store listing.</p>
+        <section id="accesses" class="scroll-mt-12">
+          <h2 class="font-display text-2xl sm:text-3xl font-600 tracking-tight text-slate-900 dark:text-white">What the extension accesses</h2>
+          <ul class="mt-5 space-y-4">
+            <li class="flex gap-3.5"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-brand-500"></span><p><strong class="text-slate-900 dark:text-white">Open tab titles and URLs</strong> — read only when you click "Organize my tabs," and only to categorize those tabs into groups.</p></li>
+            <li class="flex gap-3.5"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-brand-500"></span><p><strong class="text-slate-900 dark:text-white">Your AI provider API key</strong> — the key you enter in Settings for your chosen provider (Google Gemini, OpenAI, or Anthropic).</p></li>
+            <li class="flex gap-3.5"><span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-brand-500"></span><p><strong class="text-slate-900 dark:text-white">Your preferences</strong> — selected provider, optional model name, and toggle settings (collapse groups, include pinned tabs).</p></li>
+          </ul>
+        </section>
 
-  <h2>Disclaimer</h2>
-  <p>This extension is provided "as is", without warranty of any kind. The author is not
-  responsible or liable for any use of the extension, for the grouping results returned by
-  third-party AI providers, or for any loss or damage arising from its use. You use it at
-  your own risk and are responsible for complying with the terms of the AI provider you
-  configure.</p>
+        <section id="usage" class="scroll-mt-12">
+          <h2 class="font-display text-2xl sm:text-3xl font-600 tracking-tight text-slate-900 dark:text-white">How the data is used</h2>
+          <div class="mt-5 space-y-4 leading-relaxed">
+            <p>When you click "Organize my tabs," the extension sends the <strong class="text-slate-900 dark:text-white">titles and URLs of your open tabs</strong>, together with your API key, <strong class="text-slate-900 dark:text-white">directly from your browser to the AI provider you selected</strong>, over HTTPS. The provider returns a suggested grouping, which the extension applies as Chrome tab groups.</p>
+            <p>Your API key and preferences are stored <strong class="text-slate-900 dark:text-white">locally on your device</strong> using Chrome's <code class="rounded bg-brand-50 dark:bg-brand-900/30 px-1.5 py-0.5 text-sm text-brand-700 dark:text-brand-200">storage</code> API. They are never transmitted anywhere except, for the API key, to the provider you chose, to authenticate your own request.</p>
+            <p>Tab titles and URLs are processed in memory to build the request and are <strong class="text-slate-900 dark:text-white">not stored or logged</strong> by the extension.</p>
+          </div>
+        </section>
 
-  <h2>Contact</h2>
-  <p>Questions about this policy: <a href="mailto:edeoleo@gmail.com">edeoleo@gmail.com</a></p>
-  </div>
+        <section id="providers" class="scroll-mt-12">
+          <h2 class="font-display text-2xl sm:text-3xl font-600 tracking-tight text-slate-900 dark:text-white">Third-party AI providers</h2>
+          <p class="mt-5 leading-relaxed">The extension only contacts the single provider you select. Data you send is handled under that provider's own privacy policy:</p>
+          <div class="mt-5 grid gap-3 sm:grid-cols-3">
+            <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener" class="group rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c1426] p-4 transition hover:border-brand-400 hover:shadow-lg hover:shadow-brand-600/5">
+              <p class="font-semibold text-slate-900 dark:text-white">Google Gemini</p>
+              <p class="mt-1 text-sm text-slate-500 group-hover:text-brand-600 dark:group-hover:text-brand-400">ai.google.dev ↗</p>
+            </a>
+            <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener" class="group rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c1426] p-4 transition hover:border-brand-400 hover:shadow-lg hover:shadow-brand-600/5">
+              <p class="font-semibold text-slate-900 dark:text-white">OpenAI</p>
+              <p class="mt-1 text-sm text-slate-500 group-hover:text-brand-600 dark:group-hover:text-brand-400">openai.com ↗</p>
+            </a>
+            <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener" class="group rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c1426] p-4 transition hover:border-brand-400 hover:shadow-lg hover:shadow-brand-600/5">
+              <p class="font-semibold text-slate-900 dark:text-white">Anthropic</p>
+              <p class="mt-1 text-sm text-slate-500 group-hover:text-brand-600 dark:group-hover:text-brand-400">anthropic.com ↗</p>
+            </a>
+          </div>
+          <p class="mt-5 leading-relaxed">If you choose the "None" provider, <strong class="text-slate-900 dark:text-white">no data leaves your browser at all</strong> — grouping is done locally by website domain.</p>
+        </section>
 
-  <footer>AI Tab Organizer · This page is the official privacy policy for the Chrome Web Store listing.</footer>
-</div>
+        <section id="never" class="scroll-mt-12">
+          <h2 class="font-display text-2xl sm:text-3xl font-600 tracking-tight text-slate-900 dark:text-white">What the extension never does</h2>
+          <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+            <li class="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c1426] p-4"><svg viewBox="0 0 24 24" class="mt-0.5 h-5 w-5 flex-none text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg><span class="text-sm text-slate-700 dark:text-slate-300">No analytics, tracking, or telemetry</span></li>
+            <li class="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c1426] p-4"><svg viewBox="0 0 24 24" class="mt-0.5 h-5 w-5 flex-none text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg><span class="text-sm text-slate-700 dark:text-slate-300">No developer server — we never receive your data</span></li>
+            <li class="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c1426] p-4"><svg viewBox="0 0 24 24" class="mt-0.5 h-5 w-5 flex-none text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg><span class="text-sm text-slate-700 dark:text-slate-300">No selling or transfer of user data</span></li>
+            <li class="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c1426] p-4"><svg viewBox="0 0 24 24" class="mt-0.5 h-5 w-5 flex-none text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg><span class="text-sm text-slate-700 dark:text-slate-300">No personal, financial, health, or location data</span></li>
+          </ul>
+        </section>
+
+        <section id="retention" class="scroll-mt-12">
+          <h2 class="font-display text-2xl sm:text-3xl font-600 tracking-tight text-slate-900 dark:text-white">Data retention &amp; control</h2>
+          <p class="mt-5 leading-relaxed">Your settings and API key remain on your device until you change or remove them. You can clear them anytime by removing values in Settings or uninstalling the extension, which deletes all locally stored data.</p>
+          <div class="mt-8 grid gap-6 sm:grid-cols-2">
+            <div>
+              <h3 class="font-semibold text-slate-900 dark:text-white">Children</h3>
+              <p class="mt-2 text-sm leading-relaxed">The extension is a general productivity tool and is not directed to children under 13.</p>
+            </div>
+            <div>
+              <h3 class="font-semibold text-slate-900 dark:text-white">Changes to this policy</h3>
+              <p class="mt-2 text-sm leading-relaxed">If this policy changes, the "Updated" date above will be revised. Material changes will be reflected in the store listing.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="disclaimer" class="scroll-mt-12">
+          <div class="rounded-2xl border border-amber-300/50 dark:border-amber-400/20 bg-amber-50/70 dark:bg-amber-400/5 p-6">
+            <h2 class="flex items-center gap-2.5 font-display text-xl font-600 tracking-tight text-amber-900 dark:text-amber-200">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+              Disclaimer
+            </h2>
+            <p class="mt-3 text-sm leading-relaxed text-amber-900/90 dark:text-amber-100/80">This extension is provided "as is", without warranty of any kind. The author is not responsible or liable for any use of the extension, for the grouping results returned by third-party AI providers, or for any loss or damage arising from its use. You use it at your own risk and are responsible for complying with the terms of the AI provider you configure.</p>
+          </div>
+        </section>
+
+        <section id="contact" class="scroll-mt-12">
+          <h2 class="font-display text-2xl sm:text-3xl font-600 tracking-tight text-slate-900 dark:text-white">Contact</h2>
+          <p class="mt-5 leading-relaxed">Questions about this policy?</p>
+          <a href="mailto:edeoleo@gmail.com" class="mt-4 inline-flex items-center gap-2.5 rounded-xl bg-gradient-to-br from-brand-600 to-brand-500 px-5 py-3 font-semibold text-white shadow-lg shadow-brand-600/25 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-600/30">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+            edeoleo@gmail.com
+          </a>
+        </section>
+
+      </div>
+    </div>
+
+    <footer class="border-t border-slate-200 dark:border-white/10 py-10 text-sm text-slate-400">
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <p>© 2026 AI Tab Organizer — official privacy policy for the Chrome Web Store listing.</p>
+        <a href="https://github.com/elminson/tab-organizer" class="font-medium text-slate-500 hover:text-brand-600 dark:hover:text-brand-400 transition">github.com/elminson/tab-organizer ↗</a>
+      </div>
+    </footer>
+
+  </article>
+
+  <script>
+    // highlight the current section in the TOC
+    const links = [...document.querySelectorAll('.toc a')];
+    const map = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(a => a.classList.remove('active'));
+          map.get(e.target.id)?.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+    document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
+  </script>
 </body>
 </html>
