@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy Policy — AI Tab Organizer</title>
+<style>
+  :root { --b:#2563eb; --t:#0f172a; --m:#475569; --bd:#e2e8f0; --bg:#f8fafc; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--t);
+    font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif; line-height:1.6; }
+  .wrap { max-width:760px; margin:0 auto; padding:48px 22px 80px; }
+  .badge { display:inline-flex; align-items:center; gap:9px; font-weight:700; margin-bottom:18px; }
+  .badge .ic { width:34px; height:34px; border-radius:9px; display:grid; place-items:center;
+    background:linear-gradient(135deg,#2563eb,#3b82f6); }
+  .badge .ic svg { width:19px; height:19px; }
+  h1 { font-size:30px; letter-spacing:-0.02em; margin:0 0 4px; }
+  .updated { color:var(--m); font-size:14px; margin:0 0 30px; }
+  h2 { font-size:19px; margin:32px 0 8px; letter-spacing:-0.01em; }
+  p, li { color:#1e293b; }
+  a { color:var(--b); }
+  ul { padding-left:22px; }
+  .card { background:#fff; border:1px solid var(--bd); border-radius:14px; padding:6px 24px 22px; margin-top:8px; }
+  code { background:#eef2ff; padding:1px 6px; border-radius:5px; font-size:.9em; }
+  footer { margin-top:40px; color:var(--m); font-size:13px; border-top:1px solid var(--bd); padding-top:18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="badge">
+    <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg></span>
+    AI Tab Organizer
+  </div>
+
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: June 17, 2026</p>
+
+  <div class="card">
+  <p>AI Tab Organizer ("the extension") is a browser extension that groups your open
+  Chrome tabs into tab groups using an AI model you choose. This policy explains exactly
+  what data the extension handles and where it goes. <strong>The developer operates no
+  server and never receives, stores, or sells your data.</strong></p>
+
+  <h2>What the extension accesses</h2>
+  <ul>
+    <li><strong>Open tab titles and URLs</strong> — read only when you click "Organize my
+    tabs," and only to categorize those tabs into groups.</li>
+    <li><strong>Your AI provider API key</strong> — the key you enter in Settings for your
+    chosen provider (Google Gemini, OpenAI, or Anthropic).</li>
+    <li><strong>Your preferences</strong> — selected provider, optional model name, and
+    toggle settings (collapse groups, include pinned tabs).</li>
+  </ul>
+
+  <h2>How the data is used</h2>
+  <ul>
+    <li>When you click "Organize my tabs," the extension sends the <strong>titles and URLs
+    of your open tabs</strong>, together with your API key, <strong>directly from your
+    browser to the AI provider you selected</strong>, over HTTPS. The provider returns a
+    suggested grouping, which the extension applies as Chrome tab groups.</li>
+    <li>Your API key and preferences are stored <strong>locally on your device</strong>
+    using Chrome's <code>storage</code> API. They are never transmitted anywhere except,
+    in the case of the API key, to the provider you chose in order to authenticate your
+    own request.</li>
+    <li>Tab titles and URLs are processed in memory to build the request and are
+    <strong>not stored or logged</strong> by the extension.</li>
+  </ul>
+
+  <h2>Third-party AI providers</h2>
+  <p>The extension only contacts the single provider you select. Data you send is handled
+  under that provider's own privacy policy:</p>
+  <ul>
+    <li>Google Gemini — <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">ai.google.dev/gemini-api/terms</a></li>
+    <li>OpenAI — <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">openai.com/policies/privacy-policy</a></li>
+    <li>Anthropic — <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">anthropic.com/legal/privacy</a></li>
+  </ul>
+  <p>If you choose the "None" provider, no data leaves your browser at all — grouping is
+  done locally by website domain.</p>
+
+  <h2>What the extension does NOT do</h2>
+  <ul>
+    <li>No analytics, tracking, or telemetry.</li>
+    <li>No developer-operated server; the developer never receives your data.</li>
+    <li>No selling or transferring of user data to third parties.</li>
+    <li>No use of your data for advertising, creditworthiness, or lending.</li>
+    <li>No collection of personal, financial, health, or location information.</li>
+  </ul>
+
+  <h2>Data retention and control</h2>
+  <p>Your settings and API key remain on your device until you change or remove them. You
+  can clear them anytime by removing values in Settings or uninstalling the extension,
+  which deletes all locally stored data.</p>
+
+  <h2>Children</h2>
+  <p>The extension is a general productivity tool and is not directed to children under 13.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If this policy changes, the "Last updated" date above will be revised. Material
+  changes will be reflected in the extension's store listing.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy: <a href="mailto:edeoleo@gmail.com">edeoleo@gmail.com</a></p>
+  </div>
+
+  <footer>AI Tab Organizer · This page is the official privacy policy for the Chrome Web Store listing.</footer>
+</div>
+</body>
+</html>

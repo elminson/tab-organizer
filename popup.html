@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-2: #3b82f6;
+      --primary-soft: #eff6ff;
+      --ok: #059669;
+      --err: #dc2626;
+      --track: #e2e8f0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;
+        --surface: #111a2e;
+        --text: #e8eefb;
+        --muted: #93a4c0;
+        --border: #25324b;
+        --primary: #3b82f6;
+        --primary-2: #60a5fa;
+        --primary-soft: #16233f;
+        --ok: #34d399;
+        --err: #f87171;
+        --track: #25324b;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      width: 300px;
+      font-family: "Inter", -apple-system, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .logo {
+      width: 34px; height: 34px; border-radius: 10px; flex: none;
+      display: grid; place-items: center; color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 4px 12px -2px color-mix(in srgb, var(--primary) 55%, transparent);
+    }
+    .logo svg { width: 19px; height: 19px; }
+    .title { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
+    .subtitle { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    button#go {
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 14px; font: inherit; font-size: 14px; font-weight: 600; color: #fff;
+      border: none; border-radius: 11px; cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--primary) 70%, transparent);
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+    }
+    button#go:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 20px -6px color-mix(in srgb, var(--primary) 70%, transparent); }
+    button#go:active:not(:disabled) { transform: translateY(0) scale(.985); }
+    button#go:focus-visible { outline: 3px solid color-mix(in srgb, var(--primary) 45%, transparent); outline-offset: 2px; }
+    button#go:disabled { cursor: default; filter: saturate(.6) brightness(.97); }
+    button#go svg { width: 16px; height: 16px; }
+
+    /* status / loading card */
+    .panel {
+      margin-top: 12px; padding: 12px; border-radius: 11px;
+      background: var(--surface); border: 1px solid var(--border);
+      display: none;
+    }
+    .panel.show { display: block; }
+    #status { display: flex; align-items: center; gap: 9px; font-size: 12.5px; line-height: 1.35; }
+    #status.err #msg { color: var(--err); }
+    #status.ok #msg { color: var(--ok); font-weight: 600; }
+    #msg { color: var(--text); }
+
+    .spinner {
+      width: 15px; height: 15px; flex: none; border-radius: 50%;
+      border: 2px solid var(--track); border-top-color: var(--primary);
+      display: none; animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .dot { width: 15px; height: 15px; flex: none; display: none; }
+    .dot.ok { display: block; color: var(--ok); }
+    .dot.err { display: block; color: var(--err); }
+
+    #bar { height: 6px; background: var(--track); border-radius: 99px; overflow: hidden; margin-top: 10px; display: none; }
+    #bar > i {
+      display: block; height: 100%; width: 0; border-radius: 99px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-2));
+      transition: width .18s ease;
+    }
+
+    .disclosure { margin: 10px 2px 0; font-size: 10.5px; line-height: 1.4; color: var(--muted); text-align: center; }
+
+    .foot { margin-top: 14px; display: flex; justify-content: center; }
+    #opts {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11.5px; color: var(--muted); cursor: pointer;
+      text-decoration: none; padding: 5px 8px; border-radius: 8px;
+      transition: background .15s ease, color .15s ease;
+    }
+    #opts:hover { color: var(--text); background: var(--primary-soft); }
+    #opts svg { width: 13px; height: 13px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, button#go { transition: none !important; }
+      .spinner { animation-duration: 1.4s; }
+    }
+  </style>
+</head>
+<body>
+  <header class="head">
+    <span class="logo" aria-hidden="true">
+      <!-- layout-grid -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+        <rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>
+      </svg>
+    </span>
+    <div>
+      <div class="title">Tab Organizer</div>
+      <div class="subtitle">AI-powered tab grouping</div>
+    </div>
+  </header>
+
+  <button id="go" type="button">
+    <!-- sparkles -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/>
+      <path d="M19 14l.7 1.8L21.5 16.5l-1.8.7L19 19l-.7-1.8L16.5 16.5l1.8-.7L19 14z"/>
+    </svg>
+    <span>Organize my tabs</span>
+  </button>
+
+  <p class="disclosure">Your open tab titles &amp; URLs are sent to the AI provider you select to compute the grouping.</p>
+
+  <section class="panel" id="panel" aria-live="polite">
+    <div id="status">
+      <span class="spinner" id="spinner" aria-hidden="true"></span>
+      <svg class="dot" id="dot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path id="dotPath" d="M5 13l4 4L19 7"/>
+      </svg>
+      <span id="msg"></span>
+    </div>
+    <div id="bar"><i id="fill"></i></div>
+  </section>
+
+  <footer class="foot">
+    <a id="opts" role="button" tabindex="0">
+      <!-- settings -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      Settings &amp; API key
+    </a>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

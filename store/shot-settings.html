@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1280px; height: 800px; overflow: hidden; font-family: "Inter", system-ui, sans-serif; }
+  body {
+    background:
+      radial-gradient(900px 500px at 20% -10%, rgba(59,130,246,.32), transparent 60%),
+      radial-gradient(700px 500px at 95% 110%, rgba(37,99,235,.28), transparent 55%),
+      linear-gradient(135deg, #0a1124, #0d1733 55%, #0a1430);
+    display: flex; align-items: center; gap: 64px; padding: 0 90px;
+  }
+  .copy { width: 470px; color: #fff; }
+  h1 { font-size: 46px; line-height: 1.07; font-weight: 800; letter-spacing: -0.03em; }
+  h1 .hl { background: linear-gradient(120deg,#60a5fa,#a5c8ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { font-size: 18px; line-height: 1.5; color: #aebbd6; margin-top: 18px; }
+  ul { list-style: none; margin-top: 26px; display: grid; gap: 12px; }
+  li { display: flex; align-items: center; gap: 11px; font-size: 15.5px; color: #dbe6fb; font-weight: 500; }
+  li .ck { width: 23px; height: 23px; flex: none; border-radius: 7px; background: rgba(96,165,250,.16); display: grid; place-items: center; color: #60a5fa; }
+  li .ck svg { width: 13px; height: 13px; }
+
+  /* ---- settings card (light) ---- */
+  .card {
+    width: 520px; background: #fff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 28px; color: #0f172a;
+    box-shadow: 0 44px 90px -30px rgba(0,0,0,.6); transform: scale(1.04); transform-origin: center;
+  }
+  .chead { display: flex; align-items: center; gap: 12px; }
+  .logo { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; color: #fff;
+    background: linear-gradient(135deg,#2563eb,#3b82f6); box-shadow: 0 8px 18px -6px rgba(37,99,235,.6); }
+  .logo svg { width: 22px; height: 22px; }
+  .chead h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .chead p { font-size: 12.5px; color: #64748b; margin-top: 2px; }
+  .lab { display: block; font-weight: 600; font-size: 13px; margin: 22px 0 7px; }
+  .opt { font-weight: 400; color: #64748b; }
+  .ctrl { width: 100%; padding: 11px 12px; font-size: 14px; color: #0f172a; background: #f8fafc;
+    border: 1px solid #e2e8f0; border-radius: 11px; position: relative; }
+  .sel { display: flex; align-items: center; justify-content: space-between; }
+  .sel .car { width: 9px; height: 9px; border-right: 2px solid #64748b; border-bottom: 2px solid #64748b; transform: rotate(45deg); }
+  .ctrl.focus { border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37,99,235,.18); }
+  .keyrow { display: flex; align-items: center; justify-content: space-between; }
+  .keyrow .eye { color: #94a3b8; }
+  .keyrow .eye svg { width: 17px; height: 17px; }
+  .dots { letter-spacing: 3px; color: #334155; }
+  .help { font-size: 12px; color: #64748b; margin-top: 7px; }
+  .help a { color: #2563eb; text-decoration: none; }
+  .toggle { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px 14px;
+    margin-top: 12px; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc; }
+  .toggle .tt { font-size: 13.5px; font-weight: 500; }
+  .toggle .td { font-size: 11.5px; color: #64748b; margin-top: 2px; }
+  .sw { width: 44px; height: 26px; border-radius: 99px; position: relative; flex: none; }
+  .sw.on { background: linear-gradient(135deg,#2563eb,#3b82f6); }
+  .sw.off { background: #e2e8f0; }
+  .sw .k { position: absolute; width: 20px; height: 20px; top: 3px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+  .sw.on .k { right: 3px; }
+  .sw.off .k { left: 3px; }
+  .actions { margin-top: 26px; display: flex; align-items: center; gap: 14px; }
+  .save { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; font-size: 14px; font-weight: 600;
+    color: #fff; border: none; border-radius: 11px; background: linear-gradient(135deg,#2563eb,#3b82f6);
+    box-shadow: 0 8px 18px -8px rgba(37,99,235,.7); }
+  .save svg { width: 16px; height: 16px; }
+</style>
+</head>
+<body>
+  <div class="copy">
+    <h1>Pick your AI — <span class="hl">free or paid</span></h1>
+    <p class="sub">Start free with Google Gemini, or bring your own OpenAI or Claude key. Switch anytime.</p>
+    <ul>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Free Gemini tier — no credit card</li>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Keys stored locally, never uploaded</li>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Light &amp; dark mode built in</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="chead">
+      <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg></span>
+      <div><h2>Tab Organizer</h2><p>Choose how your tabs get grouped.</p></div>
+    </div>
+
+    <label class="lab">AI provider</label>
+    <div class="ctrl sel focus"><span>Google Gemini — free tier</span><span class="car"></span></div>
+    <p class="help">Stored locally in your browser only. Get a free key at <a>aistudio.google.com</a>.</p>
+
+    <label class="lab">API key</label>
+    <div class="ctrl keyrow"><span class="dots">••••••••••••••••••••</span><span class="eye"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
+
+    <label class="lab">Model override <span class="opt">(optional)</span></label>
+    <div class="ctrl" style="color:#94a3b8">Leave blank for the provider default</div>
+
+    <div class="toggle">
+      <div><div class="tt">Collapse groups after organizing</div><div class="td">Optional: hides each group's tabs behind a label.</div></div>
+      <div class="sw off"><span class="k"></span></div>
+    </div>
+    <div class="toggle">
+      <div><div class="tt">Also group pinned tabs</div><div class="td">Off by default so pinned tabs stay put.</div></div>
+      <div class="sw on"><span class="k"></span></div>
+    </div>
+
+    <div class="actions">
+      <button class="save"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> Save settings</button>
+    </div>
+  </div>
+</body>
+</html>

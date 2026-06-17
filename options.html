@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --surface: #ffffff;
+      --surface-2: #f8fafc;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-2: #3b82f6;
+      --primary-soft: #eff6ff;
+      --ok: #059669;
+      --ring: color-mix(in srgb, #2563eb 40%, transparent);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;
+        --surface: #111a2e;
+        --surface-2: #0e1730;
+        --text: #e8eefb;
+        --muted: #93a4c0;
+        --border: #25324b;
+        --primary: #3b82f6;
+        --primary-2: #60a5fa;
+        --primary-soft: #16233f;
+        --ok: #34d399;
+        --ring: color-mix(in srgb, #3b82f6 50%, transparent);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; padding: 48px 20px;
+      font-family: "Inter", -apple-system, system-ui, sans-serif;
+      background: var(--bg); color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      display: flex; justify-content: center;
+    }
+    .card {
+      width: 100%; max-width: 520px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 18px; padding: 28px;
+      box-shadow: 0 24px 60px -28px rgba(2, 8, 23, .45);
+    }
+
+    .head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+    .logo {
+      width: 40px; height: 40px; border-radius: 12px; flex: none; color: #fff;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 8px 18px -6px color-mix(in srgb, var(--primary) 60%, transparent);
+    }
+    .logo svg { width: 22px; height: 22px; }
+    h1 { font-size: 18px; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+    .sub { font-size: 12.5px; color: var(--muted); margin: 2px 0 0; }
+
+    .field { margin-top: 22px; }
+    label.lab { display: block; font-weight: 600; font-size: 13px; margin-bottom: 7px; }
+    .help { font-size: 12px; color: var(--muted); margin: 7px 0 0; line-height: 1.5; }
+    .help a { color: var(--primary); text-decoration: none; }
+    .help a:hover { text-decoration: underline; }
+
+    .control, select.control {
+      width: 100%; padding: 11px 12px; font: inherit; font-size: 14px;
+      color: var(--text); background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: 11px;
+      transition: border-color .15s ease, box-shadow .15s ease;
+      appearance: none; -webkit-appearance: none;
+    }
+    .control::placeholder { color: color-mix(in srgb, var(--muted) 85%, transparent); }
+    .control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--ring); }
+    .control:disabled { opacity: .5; cursor: not-allowed; }
+
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: ""; position: absolute; right: 14px; top: 50%; width: 9px; height: 9px;
+      border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
+      transform: translateY(-65%) rotate(45deg); pointer-events: none;
+    }
+
+    .key-wrap { position: relative; }
+    .key-wrap .control { padding-right: 44px; }
+    .eye {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 32px; height: 32px; display: grid; place-items: center;
+      background: none; border: none; border-radius: 8px; cursor: pointer; color: var(--muted);
+      transition: color .15s ease, background .15s ease;
+    }
+    .eye:hover { color: var(--text); background: var(--primary-soft); }
+    .eye:focus-visible { outline: 2px solid var(--ring); outline-offset: 1px; }
+    .eye svg { width: 17px; height: 17px; }
+
+    .toggle {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      padding: 13px 14px; margin-top: 12px; border: 1px solid var(--border);
+      border-radius: 12px; background: var(--surface-2); cursor: pointer;
+    }
+    .toggle .t-text { font-size: 13.5px; font-weight: 500; }
+    .toggle .t-desc { font-size: 11.5px; color: var(--muted); margin-top: 2px; font-weight: 400; }
+    .switch { position: relative; width: 44px; height: 26px; flex: none; }
+    .switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+    .switch .slider {
+      position: absolute; inset: 0; border-radius: 99px; background: var(--border);
+      transition: background .2s ease;
+    }
+    .switch .slider::before {
+      content: ""; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px;
+      border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25);
+      transition: transform .2s ease;
+    }
+    .switch input:checked + .slider { background: linear-gradient(135deg, var(--primary), var(--primary-2)); }
+    .switch input:checked + .slider::before { transform: translateX(18px); }
+    .switch input:focus-visible + .slider { box-shadow: 0 0 0 4px var(--ring); }
+
+    .actions { margin-top: 26px; display: flex; align-items: center; gap: 14px; }
+    button#save {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 20px; font: inherit; font-size: 14px; font-weight: 600; color: #fff;
+      border: none; border-radius: 11px; cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--primary) 70%, transparent);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    button#save:hover { transform: translateY(-1px); }
+    button#save:active { transform: translateY(0) scale(.98); }
+    button#save:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; }
+    #saved { display: inline-flex; align-items: center; gap: 5px; color: var(--ok); font-size: 13px; font-weight: 600; opacity: 0; transition: opacity .2s ease; }
+    #saved.show { opacity: 1; }
+    #saved svg { width: 15px; height: 15px; }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <header class="head">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+      </span>
+      <div>
+        <h1>Tab Organizer</h1>
+        <p class="sub">Choose how your tabs get grouped.</p>
+      </div>
+    </header>
+
+    <div class="field">
+      <label class="lab" for="provider">AI provider</label>
+      <div class="select-wrap">
+        <select id="provider" class="control">
+          <option value="gemini">Google Gemini — free tier</option>
+          <option value="openai">OpenAI — gpt-4o-mini (cheap)</option>
+          <option value="anthropic">Anthropic — Claude Haiku (cheap)</option>
+          <option value="domain">None — group by website (no key)</option>
+        </select>
+      </div>
+      <p class="help" id="keyhelp"></p>
+    </div>
+
+    <div class="field">
+      <label class="lab" for="key">API key</label>
+      <div class="key-wrap">
+        <input id="key" class="control" type="password" placeholder="Paste your key" autocomplete="off" spellcheck="false" />
+        <button type="button" id="toggleKey" class="eye" aria-label="Show or hide API key">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+      <p class="help">Stored locally in your browser only. Not needed for the "None" provider.</p>
+    </div>
+
+    <div class="field">
+      <label class="lab" for="model">Model override <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+      <input id="model" class="control" type="text" placeholder="Leave blank for the provider default" autocomplete="off" spellcheck="false" />
+    </div>
+
+    <label class="toggle" for="collapse">
+      <span>
+        <span class="t-text">Collapse groups after organizing</span>
+        <span class="t-desc">Optional: hides each group's tabs behind a label (click to expand). Off = all tabs stay visible.</span>
+      </span>
+      <span class="switch"><input type="checkbox" id="collapse" /><span class="slider"></span></span>
+    </label>
+
+    <label class="toggle" for="pinned">
+      <span>
+        <span class="t-text">Also group pinned tabs</span>
+        <span class="t-desc">Off by default so pinned tabs stay put.</span>
+      </span>
+      <span class="switch"><input type="checkbox" id="pinned" /><span class="slider"></span></span>
+    </label>
+
+    <div class="actions">
+      <button id="save" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/>
+        </svg>
+        Save settings
+      </button>
+      <span id="saved">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+        Saved
+      </span>
+    </div>
+  </main>
+
+  <script src="options.js"></script>
+</body>
+</html>
