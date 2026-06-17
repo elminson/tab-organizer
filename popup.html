@@ -113,6 +113,40 @@
     #opts:hover { color: var(--text); background: var(--primary-soft); }
     #opts svg { width: 13px; height: 13px; }
 
+    /* search */
+    .search { position: relative; margin-bottom: 10px; }
+    .search-ic { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--muted); pointer-events: none; }
+    #q {
+      width: 100%; padding: 9px 32px 9px 33px; font: inherit; font-size: 13px;
+      color: var(--text); background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    #q::placeholder { color: var(--muted); }
+    #q:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent); }
+    #qclear {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 24px; height: 24px; display: grid; place-items: center; padding: 0;
+      background: none; border: none; border-radius: 6px; color: var(--muted); cursor: pointer;
+    }
+    #qclear:hover { color: var(--text); background: var(--primary-soft); }
+    #qclear svg { width: 14px; height: 14px; }
+
+    .results { list-style: none; margin: 0 0 10px; padding: 4px; max-height: 232px; overflow-y: auto;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 11px; }
+    .results:empty { display: none; }
+    .res {
+      display: flex; align-items: center; gap: 9px; padding: 7px 8px; border-radius: 8px;
+      cursor: pointer; transition: background .12s ease;
+    }
+    .res:hover, .res.sel { background: var(--primary-soft); }
+    .res .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px color-mix(in srgb, var(--surface) 60%, transparent); }
+    .res .meta { min-width: 0; flex: 1; }
+    .res .rt { font-size: 12.5px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .res .ru { font-size: 10.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+    .res .grp { font-size: 9.5px; font-weight: 600; color: var(--muted); white-space: nowrap; flex: none; max-width: 78px; overflow: hidden; text-overflow: ellipsis; }
+    .res mark { background: color-mix(in srgb, var(--primary) 30%, transparent); color: inherit; border-radius: 3px; padding: 0 1px; }
+    .res-empty { padding: 12px 8px; text-align: center; font-size: 12px; color: var(--muted); }
+
     @media (prefers-reduced-motion: reduce) {
       *, button#go { transition: none !important; }
       .spinner { animation-duration: 1.4s; }
@@ -133,6 +167,15 @@
       <div class="subtitle">AI-powered tab grouping</div>
     </div>
   </header>
+
+  <div class="search">
+    <svg class="search-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="q" type="text" placeholder="Search tabs by title, URL, or group…" autocomplete="off" spellcheck="false" aria-label="Search open tabs" />
+    <button id="qclear" type="button" aria-label="Clear search" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <ul id="results" class="results" role="listbox" hidden></ul>
 
   <button id="go" type="button">
     <!-- sparkles -->
