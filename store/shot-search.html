@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1280px; height: 800px; overflow: hidden; font-family: "Inter", system-ui, sans-serif; }
+  body {
+    background:
+      radial-gradient(900px 500px at 80% -10%, rgba(59,130,246,.35), transparent 60%),
+      radial-gradient(700px 500px at 10% 110%, rgba(37,99,235,.30), transparent 55%),
+      linear-gradient(135deg, #0a1124, #0d1733 55%, #0a1430);
+    display: flex; align-items: center; gap: 70px; padding: 0 90px;
+  }
+  .copy { width: 540px; color: #fff; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 99px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+    font-size: 13px; font-weight: 600; color: #c7d6f5; margin-bottom: 22px;
+  }
+  .badge .d { width: 18px; height: 18px; border-radius: 5px; background: linear-gradient(135deg,#2563eb,#3b82f6); display: grid; place-items: center; }
+  .badge .d svg { width: 11px; height: 11px; }
+  h1 { font-size: 52px; line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; }
+  h1 .hl { background: linear-gradient(120deg,#60a5fa,#a5c8ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { font-size: 19px; line-height: 1.5; color: #aebbd6; margin-top: 18px; max-width: 480px; }
+  ul { list-style: none; margin-top: 28px; display: grid; gap: 13px; }
+  li { display: flex; align-items: center; gap: 11px; font-size: 16px; color: #dbe6fb; font-weight: 500; }
+  li .ck { width: 24px; height: 24px; flex: none; border-radius: 7px; background: rgba(52,211,153,.16); display: grid; place-items: center; color: #34d399; }
+  li .ck svg { width: 14px; height: 14px; }
+
+  .device { filter: drop-shadow(0 40px 80px rgba(0,0,0,.55)); }
+  .popup {
+    width: 300px; transform: scale(1.34); transform-origin: center;
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 18px; padding: 16px; color: #0f172a;
+  }
+  .phead { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .logo { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; color: #fff;
+    background: linear-gradient(135deg,#2563eb,#3b82f6); box-shadow: 0 4px 12px -2px rgba(37,99,235,.55); }
+  .logo svg { width: 19px; height: 19px; }
+  .ptitle { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
+  .psub { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+  .search { position: relative; margin-bottom: 10px; }
+  .search-ic { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: #64748b; }
+  .qbox { width: 100%; padding: 9px 32px 9px 33px; font-size: 13px; color: #0f172a; background: #fff;
+    border: 1px solid #2563eb; border-radius: 10px; box-shadow: 0 0 0 3px rgba(37,99,235,.20); }
+  .qclear { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: #94a3b8; }
+
+  .results { list-style: none; padding: 4px; margin-bottom: 10px; background: #fff; border: 1px solid #e2e8f0; border-radius: 11px; }
+  .res { display: flex; align-items: center; gap: 9px; padding: 7px 8px; border-radius: 8px; }
+  .res.sel { background: #eff6ff; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px #fff; }
+  .meta { min-width: 0; flex: 1; }
+  .rt { display: block; font-size: 12.5px; font-weight: 600; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ru { display: block; font-size: 10.5px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+  .grp { font-size: 9.5px; font-weight: 700; color: #94a3b8; flex: none; text-transform: none; }
+  mark { background: rgba(37,99,235,.28); color: inherit; border-radius: 3px; padding: 0 1px; }
+
+  .cta { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 11px; font-size: 14px; font-weight: 600; color: #fff; border: none; border-radius: 11px;
+    background: linear-gradient(135deg,#2563eb,#3b82f6); box-shadow: 0 6px 16px -6px rgba(37,99,235,.7); }
+  .cta svg { width: 16px; height: 16px; }
+</style>
+</head>
+<body>
+  <div class="copy">
+    <span class="badge">
+      <span class="d"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+      Instant tab search
+    </span>
+    <h1>Find <span class="hl">any tab</span> in a heartbeat</h1>
+    <p class="sub">Search across titles, URLs, and group names — then jump straight to the tab. Even across hundreds of them.</p>
+    <ul>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Instant, as-you-type filtering</li>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> 100% local — no AI cost, fully private</li>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> One click to jump to the tab</li>
+    </ul>
+  </div>
+
+  <div class="device">
+    <div class="popup">
+      <div class="phead">
+        <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg></span>
+        <div><div class="ptitle">Tab Organizer</div><div class="psub">AI-powered tab grouping</div></div>
+      </div>
+
+      <div class="search">
+        <svg class="search-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <div class="qbox">stripe</div>
+        <svg class="qclear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </div>
+
+      <ul class="results">
+        <li class="res sel">
+          <span class="dot" style="background:#1a73e8"></span>
+          <span class="meta"><span class="rt"><mark>Stripe</mark> Dashboard</span><span class="ru">dashboard.<mark>stripe</mark>.com</span></span>
+          <span class="grp">Fintech</span>
+        </li>
+        <li class="res">
+          <span class="dot" style="background:#1e8e3e"></span>
+          <span class="meta"><span class="rt"><mark>Stripe</mark> Docs — API reference</span><span class="ru"><mark>stripe</mark>.com/docs/api</span></span>
+          <span class="grp">Dev Tools</span>
+        </li>
+        <li class="res">
+          <span class="dot" style="background:#1a73e8"></span>
+          <span class="meta"><span class="rt"><mark>Stripe</mark> — Pricing</span><span class="ru"><mark>stripe</mark>.com/pricing</span></span>
+          <span class="grp">Fintech</span>
+        </li>
+        <li class="res">
+          <span class="dot" style="background:#9334e6"></span>
+          <span class="meta"><span class="rt">How <mark>Stripe</mark> Billing works</span><span class="ru">youtube.com/watch</span></span>
+          <span class="grp">Watch later</span>
+        </li>
+      </ul>
+
+      <button class="cta"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/><path d="M19 14l.7 1.8L21.5 16.5l-1.8.7L19 19l-.7-1.8L16.5 16.5l1.8-.7L19 14z"/></svg> Organize my tabs</button>
+    </div>
+  </div>
+</body>
+</html>
