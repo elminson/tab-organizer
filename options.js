@@ -8,6 +8,7 @@ const keyHelpEl = document.getElementById("keyhelp");
 const nanoBox = document.getElementById("nanobox");
 const nanoStatus = document.getElementById("nanostatus");
 const nanoDl = document.getElementById("nanodl");
+const nanoReqs = document.getElementById("nanoreqs");
 
 const KEY_HELP = {
   nano:
@@ -31,6 +32,7 @@ function setNano(kind, text, showDownload) {
 async function refreshNano() {
   if (typeof LanguageModel === "undefined") {
     setNano("bad", "Not supported in this browser — needs Chrome 138+ with built-in AI", false);
+    nanoReqs.open = true;
     return "unsupported";
   }
   let avail;
@@ -44,6 +46,7 @@ async function refreshNano() {
   else if (avail === "downloadable") setNano("warn", "Model not downloaded yet", true);
   else if (avail === "downloading") setNano("warn", "Model downloading…", false);
   else setNano("bad", "Unavailable on this device — enable it in chrome://flags or pick another provider", false);
+  nanoReqs.open = avail !== "available"; // expand the steps unless it's ready
   return avail;
 }
 
@@ -54,6 +57,7 @@ function refreshHelp() {
   keyEl.disabled = noKey;
   modelEl.disabled = noKey;
   nanoBox.hidden = p !== "nano";
+  nanoReqs.hidden = p !== "nano";
   if (p === "nano") refreshNano();
 }
 

@@ -58,6 +58,24 @@ request — fractions of a cent per run.
 - **"Claude API 400 ... model"** → update the `MODEL` constant in `background.js`.
 - **Nothing groups** → make sure you have more than ~2 non-pinned tabs open.
 
+## Chrome built-in Gemini Nano (on-device) — requirements
+
+The default **Chrome built-in AI · Gemini Nano** provider runs entirely on your device —
+free, private, offline, no API key. It needs one-time setup:
+
+1. **Chrome 138 or newer** (check `chrome://settings/help`).
+2. Open `chrome://flags` and set:
+   - **Prompt API for Gemini Nano** `#prompt-api-for-gemini-nano` → **Enabled**
+   - **optimization guide on device** `#optimization-guide-on-device-model` → **Enabled BypassPerfRequirement**
+3. **Relaunch** Chrome.
+4. Open the extension **Settings** → with the Nano provider selected, click **Download model**
+   (one-time, a few GB).
+
+**Hardware:** ~22 GB free storage and 4 GB+ GPU VRAM (or 16 GB+ RAM). On-device Nano has a
+small context window, so it's best for up to ~200 tabs — use a cloud provider (Gemini/OpenAI/
+Claude) for very large windows. If your device can't run Nano, the extension automatically
+falls back, and every other provider works without any of this setup.
+
 ## Disclaimer
 
 This extension is provided **"as is", without warranty of any kind**, express or implied.

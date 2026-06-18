@@ -105,6 +105,14 @@
     .nanostatus.bad { color: #64748b; background: color-mix(in srgb, #64748b 14%, transparent); }
     .nanodl { padding: 6px 13px; font: inherit; font-size: 12.5px; font-weight: 600; color: #fff; border: none; border-radius: 9px; cursor: pointer; background: linear-gradient(135deg, var(--primary), var(--primary-2)); }
     .nanodl:disabled { opacity: .6; cursor: default; }
+    .nanoreqs { margin-top: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); padding: 4px 14px; }
+    .nanoreqs summary { cursor: pointer; padding: 9px 0; font-size: 13px; font-weight: 600; color: var(--text); list-style-position: inside; }
+    .nanoreqs[open] summary { border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+    .nanoreqs ol { margin: 4px 0 6px; padding-left: 20px; display: grid; gap: 7px; }
+    .nanoreqs li { font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+    .nanoreqs li strong { color: var(--text); font-weight: 600; }
+    .nanoreqs code { background: var(--primary-soft); color: var(--primary); padding: 1px 6px; border-radius: 5px; font-size: 11.5px; }
+    .reqnote { font-size: 11.5px; color: var(--muted); margin: 6px 0 10px; line-height: 1.5; }
 
     .toggle {
       display: flex; align-items: center; justify-content: space-between; gap: 14px;
@@ -178,6 +186,17 @@
         <span id="nanostatus" class="nanostatus"></span>
         <button type="button" id="nanodl" class="nanodl" hidden>Download model</button>
       </div>
+      <details id="nanoreqs" class="nanoreqs" hidden>
+        <summary>Setup &amp; requirements</summary>
+        <ol>
+          <li>Use <strong>Chrome 138 or newer</strong> (check at <code>chrome://settings/help</code>).</li>
+          <li>Open <code>chrome://flags</code> in the address bar.</li>
+          <li>Set <strong>Prompt API for Gemini Nano</strong> <code>#prompt-api-for-gemini-nano</code> → <strong>Enabled</strong>.</li>
+          <li>Set <strong>optimization guide on device</strong> <code>#optimization-guide-on-device-model</code> → <strong>Enabled BypassPerfRequirement</strong>.</li>
+          <li><strong>Relaunch</strong> Chrome, return here, and click <strong>Download model</strong> (one-time, a few GB).</li>
+        </ol>
+        <p class="reqnote">Hardware: ~22&nbsp;GB free storage and 4&nbsp;GB+ GPU VRAM (or 16&nbsp;GB+ RAM). If your device can't run it, pick another provider — everything else works without this.</p>
+      </details>
     </div>
 
     <div class="field">
