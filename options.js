@@ -86,6 +86,7 @@ nanoDl.addEventListener("click", async () => {
   setNano("warn", "Starting download…", false);
   try {
     const session = await LanguageModel.create({
+      expectedOutputs: [{ type: "text", languages: ["en"] }],
       monitor(m) {
         m.addEventListener("downloadprogress", (e) => {
           setNano("warn", `Downloading… ${Math.round((e.loaded || 0) * 100)}%`, false);

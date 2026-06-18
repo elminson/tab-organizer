@@ -183,7 +183,9 @@ async function callNano(prompt, tabCount) {
   }
   if (status !== "available") throw new Error("Gemini Nano is unavailable on this device.");
 
-  const session = await LanguageModel.create();
+  const session = await LanguageModel.create({
+    expectedOutputs: [{ type: "text", languages: ["en"] }]
+  });
   try {
     return await session.prompt(prompt, { responseConstraint: GROUP_SCHEMA });
   } finally {
