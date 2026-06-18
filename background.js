@@ -1,6 +1,6 @@
 // AI Tab Organizer — service worker
 // Reads open tabs, asks an LLM to categorize them, applies Chrome tab groups.
-// Provider is selectable in Settings: anthropic | openai | gemini | domain (no AI).
+// Provider is selectable in Settings: nano | gemini | openai | anthropic | domain.
 
 const VALID_COLORS = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"];
 
@@ -8,6 +8,30 @@ const DEFAULT_MODELS = {
   anthropic: "claude-haiku-4-5-20251001",
   openai: "gpt-4o-mini",
   gemini: "gemini-2.5-flash"
+};
+
+// On-device Gemini Nano (Chrome built-in `LanguageModel`) has a small context window,
+// so it's only used for modest tab counts; larger windows should use a cloud provider.
+const NANO_MAX_TABS = 200;
+
+// JSON schema used as Nano's responseConstraint to force valid grouping output.
+const GROUP_SCHEMA = {
+  type: "object",
+  properties: {
+    groups: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          name: { type: "string" },
+          color: { type: "string", enum: VALID_COLORS },
+          tabs: { type: "array", items: { type: "integer" } }
+        },
+        required: ["name", "color", "tabs"]
+      }
+    }
+  },
+  required: ["groups"]
 };
 
 // Persist progress to storage so it survives the popup closing.
@@ -23,7 +47,7 @@ async function getStatus() {
 
 async function getSettings() {
   return chrome.storage.sync.get({
-    provider: "gemini",
+    provider: "nano",
     apiKey: "",
     model: "",
     includePinned: false,
@@ -136,10 +160,42 @@ async function callGemini(prompt, apiKey, model) {
   return (cand && cand.content && (cand.content.parts || []).map((p) => p.text || "").join("")) || "";
 }
 
+// Chrome built-in Gemini Nano — on-device, free, no API key.
+// `LanguageModel` is exposed to the extension service worker in Chrome 138+.
+async function nanoReady() {
+  try {
+    return typeof LanguageModel !== "undefined" && (await LanguageModel.availability()) === "available";
+  } catch (_) {
+    return false;
+  }
+}
+
+async function callNano(prompt, tabCount) {
+  if (typeof LanguageModel === "undefined") {
+    throw new Error("Chrome built-in AI isn't available here. Update Chrome (138+) and enable it in Settings, or pick another provider.");
+  }
+  if (tabCount > NANO_MAX_TABS) {
+    throw new Error(`On-device Gemini Nano handles up to ~${NANO_MAX_TABS} tabs. For ${tabCount} tabs, switch to Google Gemini (cloud) in Settings.`);
+  }
+  const status = await LanguageModel.availability();
+  if (status === "downloadable" || status === "downloading") {
+    throw new Error("The on-device model is still downloading. Open Settings to finish it, then try again.");
+  }
+  if (status !== "available") throw new Error("Gemini Nano is unavailable on this device.");
+
+  const session = await LanguageModel.create();
+  try {
+    return await session.prompt(prompt, { responseConstraint: GROUP_SCHEMA });
+  } finally {
+    try { session.destroy(); } catch (_) {}
+  }
+}
+
 async function aiGroup(tabs, provider, apiKey, model) {
   const prompt = buildPrompt(tabs);
   let text;
-  if (provider === "openai") text = await callOpenAI(prompt, apiKey, model);
+  if (provider === "nano") text = await callNano(prompt, tabs.length);
+  else if (provider === "openai") text = await callOpenAI(prompt, apiKey, model);
   else if (provider === "gemini") text = await callGemini(prompt, apiKey, model);
   else text = await callAnthropic(prompt, apiKey, model);
 
@@ -196,15 +252,22 @@ async function organizeTabs() {
   if (!includePinned) tabs = tabs.filter((t) => !t.pinned);
   if (!tabs.length) return { count: 0, groups: 0, mode: "none" };
 
+  // Resolve the effective provider. Nano is keyless; if it was chosen (e.g. as the
+  // default) but this browser can't run it, fall back to domain grouping rather than error.
+  let effProvider = provider;
+  if (provider === "nano" && !(await nanoReady())) effProvider = "domain";
+
+  const keyless = effProvider === "domain" || effProvider === "nano";
+
   let groups;
   let mode;
-  if (provider === "domain" || !apiKey) {
+  if (effProvider === "domain" || (!keyless && !apiKey)) {
     groups = domainGroup(tabs);
     mode = "domain";
   } else {
-    await setStatus({ phase: "thinking", provider, count: tabs.length });
-    groups = await aiGroup(tabs, provider, apiKey, model);
-    mode = provider;
+    await setStatus({ phase: "thinking", provider: effProvider, count: tabs.length });
+    groups = await aiGroup(tabs, effProvider, apiKey, model);
+    mode = effProvider;
   }
 
   const applied = await applyGroups(groups, tabs, collapse, (current, total) =>

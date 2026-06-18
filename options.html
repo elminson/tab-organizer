@@ -97,6 +97,15 @@
     .eye:focus-visible { outline: 2px solid var(--ring); outline-offset: 1px; }
     .eye svg { width: 17px; height: 17px; }
 
+    .nanobox { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    .nanostatus { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 600; padding: 5px 11px; border-radius: 99px; }
+    .nanostatus::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .nanostatus.ok { color: #059669; background: color-mix(in srgb, #059669 12%, transparent); }
+    .nanostatus.warn { color: #b45309; background: color-mix(in srgb, #b45309 12%, transparent); }
+    .nanostatus.bad { color: #64748b; background: color-mix(in srgb, #64748b 14%, transparent); }
+    .nanodl { padding: 6px 13px; font: inherit; font-size: 12.5px; font-weight: 600; color: #fff; border: none; border-radius: 9px; cursor: pointer; background: linear-gradient(135deg, var(--primary), var(--primary-2)); }
+    .nanodl:disabled { opacity: .6; cursor: default; }
+
     .toggle {
       display: flex; align-items: center; justify-content: space-between; gap: 14px;
       padding: 13px 14px; margin-top: 12px; border: 1px solid var(--border);
@@ -157,6 +166,7 @@
       <label class="lab" for="provider">AI provider</label>
       <div class="select-wrap">
         <select id="provider" class="control">
+          <option value="nano">Chrome built-in AI · Gemini Nano (on-device, free)</option>
           <option value="gemini">Google Gemini — free tier</option>
           <option value="openai">OpenAI — gpt-4o-mini (cheap)</option>
           <option value="anthropic">Anthropic — Claude Haiku (cheap)</option>
@@ -164,6 +174,10 @@
         </select>
       </div>
       <p class="help" id="keyhelp"></p>
+      <div id="nanobox" class="nanobox" hidden>
+        <span id="nanostatus" class="nanostatus"></span>
+        <button type="button" id="nanodl" class="nanodl" hidden>Download model</button>
+      </div>
     </div>
 
     <div class="field">

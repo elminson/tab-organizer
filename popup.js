@@ -10,7 +10,7 @@ const fillEl = document.getElementById("fill");
 
 const CHECK = "M5 13l4 4L19 7";
 const CROSS = "M6 6l12 12M18 6L6 18";
-const LABELS = { gemini: "Gemini", openai: "OpenAI", anthropic: "Claude", domain: "domain grouping (no key)" };
+const LABELS = { nano: "Chrome AI (on-device)", gemini: "Gemini", openai: "OpenAI", anthropic: "Claude", domain: "domain grouping (no key)" };
 
 let ticker = null;
 function clearTicker() {

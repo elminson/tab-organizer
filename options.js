@@ -5,8 +5,13 @@ const pinnedEl = document.getElementById("pinned");
 const collapseEl = document.getElementById("collapse");
 const savedEl = document.getElementById("saved");
 const keyHelpEl = document.getElementById("keyhelp");
+const nanoBox = document.getElementById("nanobox");
+const nanoStatus = document.getElementById("nanostatus");
+const nanoDl = document.getElementById("nanodl");
 
 const KEY_HELP = {
+  nano:
+    "Runs entirely on your device — free, private, and works offline. No API key needed. Requires Chrome 138+ with the built-in AI model. Best for up to ~200 tabs; use a cloud provider for very large windows.",
   gemini:
     'FREE tier. Get a key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> (default model: gemini-2.5-flash; or try gemini-flash-latest).',
   openai:
@@ -16,25 +21,80 @@ const KEY_HELP = {
   domain: "No key needed — tabs are grouped by their website domain, fully offline and free."
 };
 
+function setNano(kind, text, showDownload) {
+  nanoStatus.className = "nanostatus " + kind;
+  nanoStatus.textContent = text;
+  nanoDl.hidden = !showDownload;
+}
+
+// Reflect the on-device model state. Returns the raw availability string.
+async function refreshNano() {
+  if (typeof LanguageModel === "undefined") {
+    setNano("bad", "Not supported in this browser — needs Chrome 138+ with built-in AI", false);
+    return "unsupported";
+  }
+  let avail;
+  try {
+    avail = await LanguageModel.availability();
+  } catch (_) {
+    setNano("bad", "Not available on this device", false);
+    return "unsupported";
+  }
+  if (avail === "available") setNano("ok", "Ready — on-device, no key needed", false);
+  else if (avail === "downloadable") setNano("warn", "Model not downloaded yet", true);
+  else if (avail === "downloading") setNano("warn", "Model downloading…", false);
+  else setNano("bad", "Unavailable on this device — enable it in chrome://flags or pick another provider", false);
+  return avail;
+}
+
 function refreshHelp() {
-  keyHelpEl.innerHTML = KEY_HELP[providerEl.value] || "";
-  const noKey = providerEl.value === "domain";
+  const p = providerEl.value;
+  keyHelpEl.innerHTML = KEY_HELP[p] || "";
+  const noKey = p === "domain" || p === "nano";
   keyEl.disabled = noKey;
   modelEl.disabled = noKey;
+  nanoBox.hidden = p !== "nano";
+  if (p === "nano") refreshNano();
 }
 
 providerEl.addEventListener("change", refreshHelp);
 
 chrome.storage.sync
-  .get({ provider: "gemini", apiKey: "", model: "", includePinned: false, collapse: false })
-  .then((s) => {
+  .get({ provider: "nano", apiKey: "", model: "", includePinned: false, collapse: false, configured: false })
+  .then(async (s) => {
     providerEl.value = s.provider;
     keyEl.value = s.apiKey;
     modelEl.value = s.model;
     pinnedEl.checked = s.includePinned;
     collapseEl.checked = s.collapse;
+
+    // First run (never saved): default to Nano if available, else Gemini.
+    if (!s.configured) {
+      const avail = await refreshNano();
+      providerEl.value = (avail === "available" || avail === "downloadable" || avail === "downloading") ? "nano" : "gemini";
+    }
     refreshHelp();
   });
+
+nanoDl.addEventListener("click", async () => {
+  if (typeof LanguageModel === "undefined") return;
+  nanoDl.disabled = true;
+  setNano("warn", "Starting download…", false);
+  try {
+    const session = await LanguageModel.create({
+      monitor(m) {
+        m.addEventListener("downloadprogress", (e) => {
+          setNano("warn", `Downloading… ${Math.round((e.loaded || 0) * 100)}%`, false);
+        });
+      }
+    });
+    session.destroy();
+    setNano("ok", "Ready — on-device, no key needed", false);
+  } catch (e) {
+    setNano("bad", "Download failed: " + (e.message || e), true);
+    nanoDl.disabled = false;
+  }
+});
 
 document.getElementById("save").addEventListener("click", () => {
   chrome.storage.sync
@@ -43,7 +103,8 @@ document.getElementById("save").addEventListener("click", () => {
       apiKey: keyEl.value.trim(),
       model: modelEl.value.trim(),
       includePinned: pinnedEl.checked,
-      collapse: collapseEl.checked
+      collapse: collapseEl.checked,
+      configured: true
     })
     .then(() => {
       savedEl.classList.add("show");
